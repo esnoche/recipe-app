@@ -1,11 +1,11 @@
 import express from "express"
 import jwt from "jsonwebtoken"
 import bcrypt from "bcrypt"
-import { userModel } from "../models/users";
+import { userModel } from "../models/users.js";
 
-const router = express.Router();
+const abc = express.Router();
 
-router.post("/register", async (req, res) => {
+abc.post("/register", async (req, res) => {
     const { username, password } = req.body;
     const existingUser = await userModel.findOne({ username });
 
@@ -20,12 +20,12 @@ router.post("/register", async (req, res) => {
     const newUser = new userModel({ username, password: hashedPassword });
     await newUser.save();
 
-    req.json({
+    res.json({
         message: "User crated successfully!"
     });
 })
 
-router.post("/login", async (req, res) => {
+abc.post("/login", async (req, res) => {
     const { username, password } = req.body;
     const existingUser = userModel.findOne({ username });
 
@@ -50,4 +50,4 @@ router.post("/login", async (req, res) => {
     });
 })
 
-export { router as userRouter };
+export { abc as userRouter };
