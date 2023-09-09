@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import axios from "axios"
-import {useNavigate} from "react-router-dom"
+import { useNavigate } from "react-router-dom"
+import { useCookies } from "react-cookie"
 
 export default function Auth() {
   return (
@@ -14,30 +15,44 @@ export default function Auth() {
 const Login = () => {
   const [username, setUserName] = useState("");
   const [password, setPassword] = useState("");
+  const [errMsg, setErrMsg] = useState("");
+
+  const [cookies, setCookies] = useCookies(["access_token"])
 
   const navigate = useNavigate();
+
   const handleRegister = async (e) => {
+
     e.preventDefault();
 
     try {
-      const response = await axios.post("http://localhost:3001/auth/login",{
+
+      const response = await axios.post("http://localhost:3001/auth/login", {
         username,
         password,
       });
+
+      setCookies("access_token", response.data.token);
+      window.localStorage.setItem("userID", response.data.userID);
+
       navigate("/");
+
     } catch (error) {
-      console.log(error);
+
+      setErrMsg(error.response.data.error);
+
     }
   }
 
   return (
-    <Form 
-    action="Login"
-    username={username}
-    setUsername={setUserName}
-    password={password}
-    setPassword={setPassword}
-    handleAction={handleRegister}
+    <Form
+      action="Login"
+      errMsg={errMsg}
+      username={username}
+      setUsername={setUserName}
+      password={password}
+      setPassword={setPassword}
+      handleAction={handleRegister}
     />
   )
 }
@@ -45,38 +60,54 @@ const Login = () => {
 const Register = () => {
   const [username, setUserName] = useState("");
   const [password, setPassword] = useState("");
+  const [errMsg, setErrMsg] = useState("");
 
   const handleRegister = async (e) => {
+
     e.preventDefault();
 
     try {
-      await axios.post("http://localhost:3001/auth/register",{
+
+      const result = await axios.post("http://localhost:3001/auth/register", {
         username,
         password,
       });
-      console.log("User created successfully!");
+
+      setErrMsg(result.data.message);
+
     } catch (error) {
-      console.log(error);
+
+      setErrMsg(error.response.data.error);
+
     }
+
+    console.log("Email: ", username);
+    console.log("Password: ", password);
+
+    setUserName("");
+    setPassword("");
+
   }
 
   return (
-    <Form 
-    action="Register"
-    username={username}
-    setUsername={setUserName}
-    password={password}
-    setPassword={setPassword}
-    handleAction={handleRegister}
+    <Form
+      action="Register"
+      errMsg={errMsg}
+      username={username}
+      setUsername={setUserName}
+      password={password}
+      setPassword={setPassword}
+      handleAction={handleRegister}
     />
   )
 }
 
-const Form = ({ action, username, setUsername, password, setPassword, handleAction }) => {
+const Form = ({ action, errMsg, username, setUsername, password, setPassword, handleAction }) => {
   return (
     <div className="form-container">
       <form className="form" onSubmit={handleAction}>
         <h2>{action}</h2>
+        {errMsg && <p>{errMsg}</p>}
         <div>
           <label htmlFor="username" className="username-label">Username:</label>
           <input

@@ -9,9 +9,11 @@ abc.post("/register", async (req, res) => {
     const { username, password } = req.body;
     const existingUser = await userModel.findOne({ username });
 
+    // console.log(existingUser);
+
     if (existingUser) {
-        return res.json({
-            message: "User already exists!"
+        return res.status(400).json({
+            error: "User already exists! Please login."
         });
     }
 
@@ -21,7 +23,7 @@ abc.post("/register", async (req, res) => {
     await newUser.save();
 
     res.json({
-        message: "User crated successfully!"
+        message: "User crated successfully! Please login."
     });
 })
 
@@ -30,15 +32,15 @@ abc.post("/login", async (req, res) => {
     const existingUser = userModel.findOne({ username });
 
     if (!existingUser) {
-        return res.json({
-            message: "User doesn't exist!"
+        return res.status(404).json({
+            error: "User doesn't exist!"
         });
     }
 
     const isPasswordValid = await bcrypt.compare(password, existingUser.password);
 
     if (!isPasswordValid) {
-        return res.json({
+        return res.status(401).json({
             message: "Incorrect username or password!"
         });
     }
