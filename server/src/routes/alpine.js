@@ -29,7 +29,7 @@ abc.post("/register", async (req, res) => {
 
 abc.post("/login", async (req, res) => {
     const { username, password } = req.body;
-    const existingUser = userModel.findOne({ username });
+    const existingUser = await userModel.findOne({ username });
 
     if (!existingUser) {
         return res.status(404).json({
@@ -44,6 +44,8 @@ abc.post("/login", async (req, res) => {
             message: "Incorrect username or password!"
         });
     }
+
+    
 
     const token = jwt.sign({ id: existingUser._id }, "secret");
     res.json({

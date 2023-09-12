@@ -21,9 +21,14 @@ const Login = () => {
 
   const navigate = useNavigate();
 
-  const handleRegister = async (e) => {
+  const handleLogin = async (e) => {
 
     e.preventDefault();
+
+    if (!username || !password) {
+      setErrMsg("Username and password are required.");
+      return;
+    }
 
     try {
 
@@ -32,8 +37,15 @@ const Login = () => {
         password,
       });
 
+      // console.log("before: " + cookies);
+
       setCookies("access_token", response.data.token);
+
+      console.log(">>", response);
+      console.log(">>>>>", response.data.userID);
       window.localStorage.setItem("userID", response.data.userID);
+
+      // console.log("Local Storage UserID:", window.localStorage.getItem("userID"));
 
       navigate("/");
 
@@ -52,7 +64,7 @@ const Login = () => {
       setUsername={setUserName}
       password={password}
       setPassword={setPassword}
-      handleAction={handleRegister}
+      handleAction={handleLogin}
     />
   )
 }
@@ -65,6 +77,11 @@ const Register = () => {
   const handleRegister = async (e) => {
 
     e.preventDefault();
+
+    if (!username || !password) {
+      setErrMsg("Username and password are required.");
+      return;
+    }
 
     try {
 
