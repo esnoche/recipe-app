@@ -28,6 +28,7 @@ abc.post("/register", async (req, res) => {
 })
 
 abc.post("/login", async (req, res) => {
+    
     const { username, password } = req.body;
     const existingUser = await userModel.findOne({ username });
 
@@ -45,13 +46,13 @@ abc.post("/login", async (req, res) => {
         });
     }
 
-    
-
     const token = jwt.sign({ id: existingUser._id }, "secret");
+
     res.json({
         token,
         userId: existingUser._id
     });
+    
 })
 
 export { abc as userRouter };

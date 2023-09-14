@@ -36,16 +36,9 @@ const Login = () => {
         username,
         password,
       });
-
-      // console.log("before: " + cookies);
-
+      
       setCookies("access_token", response.data.token);
-
-      console.log(">>", response);
-      console.log(">>>>>", response.data.userID);
-      window.localStorage.setItem("userID", response.data.userID);
-
-      // console.log("Local Storage UserID:", window.localStorage.getItem("userID"));
+      window.localStorage.setItem("userID", response.data.userId);
 
       navigate("/");
 
