@@ -16,7 +16,7 @@ export default function SavedRecipes() {
     };
     fetchSavedRecipes();
   }, []);
-  
+
   return (
     <>
       <h2>Saved Recipes</h2>
@@ -26,7 +26,7 @@ export default function SavedRecipes() {
             <li key={recipe._id}>
               <div>
                 <h2>{recipe.recipeName}</h2>
-                
+
               </div>
               <div className="instructions">
                 <p>{recipe.instructions}</p>

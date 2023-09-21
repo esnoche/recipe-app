@@ -2,7 +2,7 @@ import express from "express"
 import cors from "cors"
 import mongoose from "mongoose"
 
-import {userRouter} from "./routes/alpine.js"
+import { userRouter } from "./routes/alpine.js"
 import { recipeRouter } from "./routes/montane.js"
 
 

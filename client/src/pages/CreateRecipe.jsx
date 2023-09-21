@@ -29,12 +29,12 @@ export default function CreateRecipe() {
   const addIngredient = () => {
     setRecipe({ ...recipe, ingredients: [...recipe.ingredients, ""] });
   }
-  const handleSubmit= async (e)=>{
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    try{
-      await axios.post("http://localhost:3001/recipes",recipe,{headers:{authorization:cookies.access_token}});
+    try {
+      await axios.post("http://localhost:3001/recipes", recipe, { headers: { authorization: cookies.access_token } });
       navigate("/");
-    }catch(error){
+    } catch (error) {
       console.log(error);
     }
   }

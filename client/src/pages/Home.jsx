@@ -29,13 +29,13 @@ export default function Home() {
     };
 
     fetchRecipes();
-    fetchSavedRecipes();
+    if (cookies.access_token) fetchSavedRecipes();
   }, []);
   const saveRecipe = async (recipeId) => {
     try {
       const result = await axios.put("http://localhost:3001/recipes",
-      { recipeId, userId },
-      {headers:{authorization : cookies.access_token}}
+        { recipeId, userId },
+        { headers: { authorization: cookies.access_token } }
       );
       setSavedRecipes(result.data.savedRecipes);
     } catch (error) {
