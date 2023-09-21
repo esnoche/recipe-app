@@ -1,11 +1,7 @@
 import mongoose from "mongoose";
 
 const recipeSchema = new mongoose.Schema({
-    imageUrl: {
-        type: String,
-        required: true,
-    },
-    dishName: {
+    recipeName: {
         type: String,
         required: true,
     },
@@ -14,6 +10,10 @@ const recipeSchema = new mongoose.Schema({
         required: true,
     }],
     instructions: {
+        type: String,
+        required: true,
+    },
+    imageUrl: {
         type: String,
         required: true,
     },

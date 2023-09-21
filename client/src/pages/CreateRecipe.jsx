@@ -1,14 +1,17 @@
 import React, { useState } from 'react'
 import axios from "axios"
-
+import { useGetUserId } from '../hooks/useGetUserId';
+import { useNavigate } from 'react-router-dom';
 export default function CreateRecipe() {
+  const userId = useGetUserId();
+  const navigate = useNavigate();
   const [recipe, setRecipe] = useState({
     recipeName: "",
     ingredients: [],
     instructions: "",
     imageUrl: "",
     cookingTime: 0,
-    userOwner: 0,
+    userOwner: userId,
   });
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -27,7 +30,7 @@ export default function CreateRecipe() {
     e.preventDefault();
     try{
       await axios.post("http://localhost:3001/recipes",recipe);
-      
+      navigate("/");
     }catch(error){
       console.log(error);
     }
@@ -77,6 +80,7 @@ export default function CreateRecipe() {
           name="instructions"
           cols="30"
           rows="10"
+          onChange={handleChange}
         >
         </textarea>
 
