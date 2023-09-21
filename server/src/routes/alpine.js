@@ -28,7 +28,7 @@ abc.post("/register", async (req, res) => {
 })
 
 abc.post("/login", async (req, res) => {
-    
+
     const { username, password } = req.body;
     const existingUser = await userModel.findOne({ username });
 
@@ -52,7 +52,22 @@ abc.post("/login", async (req, res) => {
         token,
         userId: existingUser._id
     });
-    
+
 })
 
 export { abc as userRouter };
+
+//middleware>>>
+export const verifyToken = (req, res, next) => {
+    const token = req.headers.authorization;
+    if (token) {
+        jwt.verify(token, "secret", (err) => {
+            if (err) {
+                return res.status(403);
+            }
+            next();
+        });
+    } else {
+        res.status(401);
+    }
+}

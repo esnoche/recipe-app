@@ -1,7 +1,7 @@
 import express from "express"
-import mongoose from "mongoose"
 import { recipeModel } from "../models/recipes.js"
 import { userModel } from "../models/users.js";
+import { verifyToken } from "./alpine.js";
 
 const sinew = express.Router();
 
@@ -19,7 +19,7 @@ sinew.get("/", async (req, res) => {
     }
 });
 
-sinew.post("/", async (req, res) => {
+sinew.post("/", verifyToken, async (req, res) => {
 
     const recipe = new recipeModel(req.body);
 
@@ -36,7 +36,7 @@ sinew.post("/", async (req, res) => {
     }
 });
 
-sinew.put("/", async (req, res) => {
+sinew.put("/", verifyToken, async (req, res) => {
     try {
 
         const recipe = await recipeModel.findById(req.body.recipeId);
