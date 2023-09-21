@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import axios from "axios"
 
 export default function CreateRecipe() {
   const [recipe, setRecipe] = useState({
@@ -22,12 +23,21 @@ export default function CreateRecipe() {
   const addIngredient = () => {
     setRecipe({ ...recipe, ingredients: [...recipe.ingredients, ""] });
   }
+  const handleSubmit= async (e)=>{
+    e.preventDefault();
+    try{
+      await axios.post("http://localhost:3001/recipes",recipe);
+      
+    }catch(error){
+      console.log(error);
+    }
+  }
   return (
     <div className="create-recipe">
       <h2 className="heading-2">
         Create Recipe
       </h2>
-      <form className="create-recipe-form">
+      <form className="create-recipe-form" onSubmit={handleSubmit}>
 
         <label htmlFor="recipeName">
           Rcipe Name
