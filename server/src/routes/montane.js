@@ -64,9 +64,9 @@ sinew.get("/saved-recipes/ids/:userId", async (req, res) => {
     }
 });
 
-sinew.get("/saved-recipes", async (req, res) => {
+sinew.get("/saved-recipes/:userId", async (req, res) => {
     try {
-        const user = await userModel.findById(req.body.userId);
+        const user = await userModel.findById(req.params.userId);
         const savedRecipes = await recipeModel.find({
             _id: { $in: user.savedRecipes },
         });

@@ -42,7 +42,7 @@ export default function Home() {
       <h2>Recipes</h2>
       <ul>
         {
-          recipes.map((recipe, idx) => (
+          recipes.map((recipe) => (
             <li key={recipe._id}>
               <div>
                 <h2>{recipe.recipeName}</h2>
